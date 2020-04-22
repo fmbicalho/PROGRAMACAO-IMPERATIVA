@@ -1,0 +1,101 @@
+#include <stdlib.h>
+
+typedef struct slist *LInt;
+
+//--------------------1---------------
+
+typedef struct slist {
+  int valor;
+  LInt prox;
+} Nodo;
+
+// acrescente no inicio da lista
+LInt cons (LInt l, int x) {
+  LInt n = malloc(sizeof(Nodo)); 
+  
+  if (n == NULL) return n; 
+  
+  n->valor = x; 
+  n->prox = l; 
+  
+  return n; 
+} 
+
+// remove primeir elemento de uma lista 
+LInt tail (LInt l) {
+  LInt tmp = l;
+  
+  if (l != NULL) {
+    l = l->prox;
+    free(tmp); 
+  }
+  
+  return l; 
+}
+
+// remove o ultimo elemento de uma lista
+LInt init (LInt l) {
+// if (l == NULL) return l;
+ 
+  if (l== NULL || l->prox== NULL) {
+   free(l);
+   return NULL;
+  }
+  
+  LInt antes = l;
+  
+  while (antes->prox->prox != NULL) 
+      antes = antes->prox;
+
+  free (antes->prox);
+  antes->prox = NULL; 
+  
+  return l;   
+}
+
+//l->[]-> [1 | -]-> [2 | -]-> [3 | -]-> NULL, 4
+//??
+//l->[]-> [1 | -]-> [2 | -]-> [3 | -]-> [4 | -]-> NULL,
+int snoc(LInt *l, int x) {  
+  
+  LInt n = malloc(sizeof(Nodo)); 
+  if (n==NULL) return 1;
+  n->valor = x;
+  n->prox = NULL;
+  
+  if (*l == NULL) {
+    *l = n;
+    return 0; 
+  } 
+  //Int *i 
+  // - i é um endereço
+  // - *i é o enteiro
+  // Nodo **l 
+  // - l é um endereço apunta a *Nodo
+  // - *l é um endereco apunta a Nodo 
+  // - **l é o nodo
+  LInt ultimo = *l; // *Nodo
+  //l->[]-> Nodo
+  //(*l)->Nodo
+  while (ultimo->prox != NULL) 
+    ultimo = ultimo->prox;
+  
+  ultimo->prox = n; 
+  
+  return 0; 
+}
+
+int main() {
+  LInt list = NULL, l2 = NULL; 
+  list = cons(list,3);
+  list = cons(list,2);
+  int code = snoc(&list,4); 
+  snoc(&l2,1);
+  return 0;
+}
+
+//-------------------2---------------------
+
+
+
+
